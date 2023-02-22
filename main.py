@@ -27,7 +27,8 @@ while True:
     clear()
 
     print('''Functions: 
-1). Install youtube vanced''')
+1). Install youtube vanced
+2). Send command and get output''')
     
     mode = input('Select: ')
         
@@ -40,7 +41,7 @@ while True:
         
         #micro g
         print('Downloading micro G..')
-        download('https://dwdisc.com/fdl/705107cd-6cd9-4a27-9bb9-ef340e5a248c/microg-v0-2-25-224113.apk','./microg.apk', replace=True)#micro g
+        download('https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/microg-v0-2-25-224113.apk?raw=true','./microg.apk', replace=True)#micro g
         print('Installing micro G')
 
         wait(0.5)
@@ -50,10 +51,29 @@ while True:
         print('Delete micro G file')
         os.remove('./microg.apk')
 
-        #print('Downloading youtube vanced..')
+        #vanced
+        print('Downloading youtube vanced..')
 
-        #download('https://dwdisc.com/fdl/c538bf8b-9c46-48bb-a8fe-8a1b7b05e3d8/YouTube-Vanced-v17-32-38.apk','./')#youtube vanced
-        enter_to_continue()
+        download('https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/YouTube-Vanced-v17-32-38.apk?raw=true','./vanced.apk')#youtube vanced
+        print('Installing youtube vanced')
+
+        print(adb('install '+'vanced.apk'))
+        print('Delete micro G file')
+        os.remove('./vanced.apk')
+
+        if input('Uninstall official youtube (y,n): ').lower() == 'y':
+            print(adb('shell pm uninstall --user 0 com.google.android.youtube'))
+
+    elif mode == '2':
+        while True:
+            clear()
+            command = input('Enter command (without "adb", "exit" for exit): ')
+            if command.lower() == 'exit':
+                break
+            print(adb(command))
+            enter_to_continue()
+        
+
     else:
         clear()
         print('Mode not found!')

@@ -22,4 +22,3 @@ def screenstate():
         return True
     elif state == 'false':#screen locked
         return False
-    
