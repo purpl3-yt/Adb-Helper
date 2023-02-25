@@ -21,48 +21,71 @@ if not os.path.isdir('platform-tools'):
 
 #######################
 
+#Check for devices
+while True:
+    clear()
+    if len(devices()) == 0:
+        print('Connect any device and press enter!')
+        enter_to_continue()
+    
+    elif len(devices()) >= 1:
+        break
+##################
+
+print('''
+     _    ____  ____    _   _ _____ _     ____  _____ ____  
+    / \  |  _ \| __ )  | | | | ____| |   |  _ \| ____|  _ \ 
+   / _ \ | | | |  _ \  | |_| |  _| | |   | |_) |  _| | |_) |
+  / ___ \| |_| | |_) | |  _  | |___| |___|  __/| |___|  _ < 
+ /_/   \_\____/|____/  |_| |_|_____|_____|_|   |_____|_| \_\\ by purpl3
+''')
+enter_to_continue()
 
 #Main Menu
 while True:
     clear()
 
     print('''Functions: 
-1). Install youtube vanced
-2). Send command and get output''')
+1). Apps
+2). Send command and get output
+3). Tweaks
+4). Get installed packages
+9). Exit''')
     
     mode = input('Select: ')
         
     if mode == '1':
-        if not screenstate():
-            print('Please unlock your screen!')
-            enter_to_continue() 
-        clear()
-        print('Installing youtube vanced...')
-        
-        #micro g
-        print('Downloading micro G..')
-        download('https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/microg-v0-2-25-224113.apk?raw=true','./microg.apk', replace=True)#micro g
-        print('Installing micro G')
+        while True:
+            clear()
 
-        wait(0.5)
-        
-        print(adb('install '+'microg.apk'))
-        
-        print('Delete micro G file')
-        os.remove('./microg.apk')
+            print('''Apps: 
+1) Youtube vanced
+9) Exit ''')
 
-        #vanced
-        print('Downloading youtube vanced..')
+            app = input('Select: ')
 
-        download('https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/YouTube-Vanced-v17-32-38.apk?raw=true','./vanced.apk')#youtube vanced
-        print('Installing youtube vanced')
+            if app == '1':
+                clear()
+                print('Installing youtube vanced...')
+                
+                #micro g
+                install_app('./microg.apk','https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/microg-v0-2-25-224113.apk?raw=true')
 
-        print(adb('install '+'vanced.apk'))
-        print('Delete micro G file')
-        os.remove('./vanced.apk')
+                #vanced
+                install_app('./vanced.apk','https://github.com/purpl3-yt/Adb-Helper/blob/main/apps/YouTube-Vanced-v17-32-38.apk?raw=true')
 
-        if input('Uninstall official youtube (y,n): ').lower() == 'y':
-            print(adb('shell pm uninstall --user 0 com.google.android.youtube'))
+                if input('Uninstall official youtube (y,n): ').lower() == 'y':
+                    print(adb('shell pm uninstall --user 0 com.google.android.youtube'))
+
+                enter_to_continue()
+                
+            elif app == '9':
+                break
+                
+            else:
+                clear()
+                print('App not found!')
+                enter_to_continue()
 
     elif mode == '2':
         while True:
@@ -73,6 +96,36 @@ while True:
             print(adb(command))
             enter_to_continue()
         
+    elif mode == '3':
+        while True:
+            clear()
+
+            print('''Tweaks:
+1) Remove nfc icon in status bar (miui, etc.)
+9) Exit''')
+                  
+            tweak_mode = input('Enter an tweak: ')
+
+            if tweak_mode == '1':
+                print('Processing "adb shell settings put secure icon_blacklist nfc"')
+                print(adb('shell settings put secure icon_blacklist nfc'))
+                print('Done!')
+
+            elif tweak_mode == '9':
+                break
+
+            else:
+                print('Tweak not found!')
+                enter_to_continue()
+
+    elif mode == '4':
+        clear()
+        print(packages_list())
+        enter_to_continue()
+
+    elif mode == '9':
+        print('Exit..')
+        quit()
 
     else:
         clear()
